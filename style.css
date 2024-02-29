@@ -18,6 +18,8 @@ body {
     z-index: 2;
     color: black;
     transform: translateX(-100vw);
+    width: fit-content;
+    display: block;
   }
 
   .menu-item:hover {
@@ -40,10 +42,10 @@ body {
 
   .background-pattern {
     background-image: radial-gradient(
-      rgba(255, 255, 255, 0.1) 9%,
-      transparent 9%
+      rgba(255, 255, 255, 0.1) 2%,
+      transparent 10%
     );
-    background-size: 12vmin 12vmin;
+    background-size: 7vmin 7vmin;
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -60,8 +62,8 @@ body {
   }
 
   .menu-item:hover ~ .background-pattern {
-    background-size: 11vmin 11vmin;
-    opacity: 0.5;
+    background-size: 6vmin 6vmin;
+    opacity: 0.8;
   }
 
   #menu[data-active-index="0"] > .background-pattern {
@@ -107,3 +109,5 @@ body {
   .ham-menu span:nth-child(4) {
     top: 100%;
   }
+
+  

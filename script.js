@@ -4,7 +4,7 @@ var hamSpan2 = document.querySelector(".span-2");
 var hamSpan3 = document.querySelector(".span-3");
 var hamSpan4 = document.querySelector(".span-4");
 
-var isMenuOpen = false;
+var menuOpened = false;
 var isAnimationInProgress = false;
 
 Array.from(document.getElementsByClassName("menu-item")).forEach(
@@ -19,31 +19,19 @@ function animateMenu() {
   if (!isAnimationInProgress) {
     isAnimationInProgress = true;
 
-    if (isMenuOpen) {
-      anime({
-        targets: ".menu-item",
-        translateX: [0, -1000],
-        duration: 3000,
-        delay: anime.stagger(100),
-        complete: function () {
-          isMenuOpen = false;
-          isAnimationInProgress = false;
-          transformHamSpan(false);
-        },
-      });
-    } else {
-      anime({
-        targets: ".menu-item",
-        translateX: [-1000, 0],
-        duration: 3000,
-        delay: anime.stagger(100),
-        complete: function () {
-          isMenuOpen = true;
-          isAnimationInProgress = false;
-          transformHamSpan(true);
-        },
-      });
-    }
+    const menuAnimation = anime({
+      targets: ".menu-item",
+      translateX: [-1000, 0],
+      duration: 3000,
+      delay: anime.stagger(100),
+      direction: menuOpened ? "reverse" : "normal",
+    });
+
+    menuAnimation.finished.then(() => {
+      menuOpened = !menuOpened;
+      isAnimationInProgress = false;
+      transformHamSpan(menuOpened);
+    });
   }
 }
 
@@ -68,3 +56,27 @@ function transformHamSpan(isTransformed) {
 document.querySelector(".ham-menu").addEventListener("click", function () {
   animateMenu();
 });
+
+const menuItems = document.querySelectorAll(".menu-item");
+menuItems.forEach((mi) => {
+  mi.innerHTML = mi.textContent.replace(/\S/g, "<span>$&</span>");
+});
+
+document.querySelectorAll(".menu-item span").forEach((span) => {
+  span.style.display = "inline-block";
+});
+
+function animateText(item) {
+  const target = "." + item + " span";
+  const animacija = anime({
+    targets: target,
+    scale: [1, 1.5, 1],
+    duration: 500,
+    easing: "easeInOutCubic",
+    delay: anime.stagger(100),
+  });
+  animacija.finished.then(() => {
+    animacija.direction = "reverse";
+    animacija.play();
+  });
+}
